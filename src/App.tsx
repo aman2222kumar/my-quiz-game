@@ -7,6 +7,7 @@ import "./App.css";
 import { shuffleArray } from "./utils/suffle";
 import FailedScreen from "./components/FailedScreenView";
 import ResultScreen from "./components/ResultView";
+import ProgressBarView from "./components/ProgrssBarView";
 
 type level = "easy" | "medium" | "hard";
 
@@ -38,7 +39,6 @@ const App = () => {
 
   useEffect(() => {
     if (submitHandle) {
-      console.log("going");
       setTimeout(() => {
         if (currentQuestionIndex < questionsList.length - 1) {
           setCurrentQuestionIndex(currentQuestionIndex + 1);
@@ -72,7 +72,7 @@ const App = () => {
     submitHandle,
     correctAnswerCount,
   ]);
-  console.log(correctAnswerCount);
+
   useEffect(() => {
     const id = setTimeout(() => {
       if (feedback) {
@@ -97,14 +97,6 @@ const App = () => {
     localStorage.setItem("score", newScore);
     localStorage.setItem("currentLevel", currentLevel);
   }, [score, currentLevel]);
-
-  console.log("result", {
-    showFailedScreen,
-    showFinalResultScreen,
-    showScoreScreen,
-    questionsList,
-    currentAnswer,
-  });
 
   const handleAnswerSubmit = () => {
     if (!currentAnswer) {
@@ -194,6 +186,7 @@ const App = () => {
             <>
               <section className="question_section">
                 <h2>Score: {score}</h2>
+                <ProgressBarView score={score} />
                 {!feedback ? (
                   <Questions
                     question={questionsList[currentQuestionIndex]}
